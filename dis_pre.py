@@ -6,20 +6,20 @@ from tkinter import messagebox
 disease=['fungal infection','allergy,dengue','covid','heart attack','arthritis','migraine','asthama','hepatitis B','gasteroenteritis']
 l1=['itching','skin rash','continous sneezing','shivering','joint pain','loss of sense of taste and smell','running nose','fever',
     'breathlessness','sweating','dehydration','irregular sugar level','chest pain','swelling of joints and limbs','muscle weakness',
-    'decreased activity','muscle stiffness','head ache','vomiting','extreme sensitivity','dizziness','wheezing','coughing',
-    'troubled sleeping','fatigue','loss of appetite','abdominal pain','stomach cramps','watery diarrhea']
+    'decreased activity','muscle stiffness','headache','vomiting','extreme sensitivity','dizziness','wheezing','coughing',
+    'troubled sleep','fatigue','loss of appetite','abdominal pain','stomach cramp','watery diarrhea']
 l2=[]
 for x in range(0,len(l1)):
     l2.append(0)
 #testing
-a=pd.read_csv("training.csv")
+a=pd.read_csv("testing.csv")
 a.replace({'prognosis':{'fungal infection':0,'allergy':1,'dengue':2,'covid':3,'heart attack':4,'arthritis':5,'migraine':6,'asthama':7,
                         'hepatitis B':8,'gasteroenteritis':9}},inplace=True)
 xtest=a[l1]
 ytest=a[["prognosis"]]
 np.ravel(ytest)
 #training
-b=pd.read_csv("C:User\Desktop\connector\training.csv")
+b=pd.read_csv("training.csv")
 b.replace({'prognosis':{'fungal infection':0,'allergy':1,'dengue':2,'covid':3,'heart attack':4,'arthritis':5,'migraine':6,'asthama':7,
                         'hepatitis B':8,'gasteroenteritis':9}},inplace=True)
 x=a[l1]
