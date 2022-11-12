@@ -1,7 +1,10 @@
-import numpy as np
-import pandas as pd
 from tkinter import *
 from tkinter import messagebox
+
+import numpy as np
+import pandas as pd
+from sklearn.naive_bayes import MultinomialNB
+
 #fungal infection,allergy,dengue,covid,heart attack,arthritis,migrane,asthama,hepatitis B,gasteroenteritis
 disease=['fungal infection','allergy,dengue','covid','heart attack','arthritis','migraine','asthama','hepatitis B','gasteroenteritis']
 l1=['itching','skin rash','continous sneezing','shivering','joint pain','loss of sense of taste and smell','running nose','fever',
@@ -12,18 +15,24 @@ l2=[]
 for x in range(0,len(l1)):
     l2.append(0)
 #testing
-a=pd.read_csv("testing.csv")
+a=pd.read_csv('newtesting.csv')
 a.replace({'prognosis':{'fungal infection':0,'allergy':1,'dengue':2,'covid':3,'heart attack':4,'arthritis':5,'migraine':6,'asthama':7,
                         'hepatitis B':8,'gasteroenteritis':9}},inplace=True)
 xtest=a[l1]
+xtest=xtest.values
+#xtest=xtest.astype('string')
 ytest=a[["prognosis"]]
+ytest=ytest.astype('string')
 np.ravel(ytest)
 #training
-b=pd.read_csv("training.csv")
+b=pd.read_csv('training.csv')
 b.replace({'prognosis':{'fungal infection':0,'allergy':1,'dengue':2,'covid':3,'heart attack':4,'arthritis':5,'migraine':6,'asthama':7,
                         'hepatitis B':8,'gasteroenteritis':9}},inplace=True)
 x=a[l1]
+x=x.values
+#x=x.astype('string')
 y=b[["prognosis"]]
+y=y.astype('string')
 np.ravel(y)
 def message():
     if (Symptom1.get() == "None" and  Symptom2.get() == "None" and Symptom3.get() == "None" ):
@@ -49,31 +58,30 @@ def NaiveBayes():
 
     inputtest = [l2]
     predict = gnb.predict(inputtest)
+    print(predict[0])
     predicted=predict[0]
-
     h='no'
-    for a in range(0,len(disease)):
-        if(disease[predicted] == disease[a]):
+    for i in range(0,len(disease)):
+        if(int(predicted) == disease[i]):
             h='yes'
             break
 
-    if (h=='yes'):
-        t3.delete("1.0", END)
-        t3.insert(END, disease[a])
-    else:
-        t3.delete("1.0", END)
-        t3.insert(END, "No Disease")
+        if (h=='yes'):
+            t3.delete("1.0", END)
+            t3.insert(END, disease[i])
+        else:
+            t3.delete("1.0", END)
+            t3.insert(END, "No Disease")
 
 root = Tk()
 root.title(" Disease Prediction From Symptoms")
 root.configure()
-
 Symptom1 = StringVar()
-Symptom1.set(None)
+Symptom1.set("None")
 Symptom2 = StringVar()
-Symptom2.set(None)
+Symptom2.set("None")
 Symptom3 = StringVar()
-Symptom3.set(None)
+Symptom3.set("None")
 
 
 w2 = Label(root, justify=LEFT, text=" Disease Prediction From Symptoms ")
